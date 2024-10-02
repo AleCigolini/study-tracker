@@ -1,9 +1,9 @@
 <template>
-  <main class="columns is-gapless is-multiline">
+  <main class="columns is-gapless is-multiline" :class="{ 'modo-escuro': isModoEscuro }">
     <div class="column is-one-quarter">
-      <BarraLateral />
+      <BarraLateral @ao-tema-alterado="alterarTema"/>
     </div>
-    <div class="column is-three-quarter">
+    <div class="column is-three-quarter conteudo">
       <FormularioTopo @ao-salvar-tarefa="salvarTarefa"/>
       <div class="lista">
         <TarefaList 
@@ -32,7 +32,8 @@ export default defineComponent({
   components: { BarraLateral, FormularioTopo, TarefaList, BoxPadrao },
   data() {
     return {
-      tarefas: [] as ITarefa[]
+      tarefas: [] as ITarefa[],
+      isModoEscuro: false
     }
   },
   computed: {
@@ -43,6 +44,10 @@ export default defineComponent({
   methods: {
     salvarTarefa(tarefa: ITarefa): void {
       this.tarefas.push(tarefa);
+    },
+
+    alterarTema(isModoEscuro: boolean): void {
+      this.isModoEscuro = isModoEscuro;
     }
   }
 });
@@ -53,4 +58,17 @@ export default defineComponent({
   padding: 10px
 }
 
+main {
+  --bg-primario: #ffffff;
+  --texto-primario: #000000;
+}
+
+main.modo-escuro {
+  --bg-primario: #2b2d42;
+  --texto-primario: #dddddd;
+}
+
+.conteudo {
+  background-color: var(--bg-primario);
+}
 </style>
