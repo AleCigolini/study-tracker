@@ -4,17 +4,8 @@
       <BarraLateral @ao-tema-alterado="alterarTema"/>
     </div>
     <div class="column is-three-quarter conteudo">
-      <FormularioTopo @ao-salvar-tarefa="salvarTarefa"/>
-      <div class="lista">
-        <TarefaList 
-          v-for="(tarefa, index) in tarefas" 
-          :key="index"
-          :tarefa="tarefa"
-        />
-        <BoxPadrao v-if="isListaVazia">
-          Você não está muito produtivo hoje
-        </BoxPadrao>
-      </div>
+      <!-- O ROUTER-VIEW RENDERIZA CONFORME COMPONENTES INSERIDOS EM CADA ROTA -->
+       <router-view></router-view>
     </div>
   </main>  
 </template>
@@ -22,30 +13,16 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import BarraLateral from './components/BarraLateral.vue';
-import FormularioTopo from './components/FormularioTopo.vue';
-import TarefaList from './components/TarefaList.vue';
-import ITarefa from './interfaces/ITarefa';
-import BoxPadrao from './components/BoxPadrao.vue';
 
 export default defineComponent({
   name: 'App',
-  components: { BarraLateral, FormularioTopo, TarefaList, BoxPadrao },
+  components: { BarraLateral },
   data() {
     return {
-      tarefas: [] as ITarefa[],
       isModoEscuro: false
     }
   },
-  computed: {
-    isListaVazia(): boolean {
-      return this.tarefas.length === 0;
-    }
-  },
   methods: {
-    salvarTarefa(tarefa: ITarefa): void {
-      this.tarefas.push(tarefa);
-    },
-
     alterarTema(isModoEscuro: boolean): void {
       this.isModoEscuro = isModoEscuro;
     }

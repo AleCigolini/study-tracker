@@ -1,6 +1,6 @@
 <template>
-    <div class="is-flex is-align-items-center is-justify-content-space-between">
-        <section>
+    <div>
+        <section class="is-flex is-align-items-center is-justify-content-space-between">
             <CronometroTopo :tempo-em-segundos="tempoEmSegundos" />
 
             <BotaoTemporizador 
