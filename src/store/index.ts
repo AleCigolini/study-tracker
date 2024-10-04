@@ -2,16 +2,19 @@ import IProjeto from "@/interfaces/IProjeto";
 import { createStore, Store, useStore as vuexUseStore } from "vuex";
 import { InjectionKey } from 'vue';
 import { ActionEnum } from "./action.enum";
+import INotificacao from "@/interfaces/INotificacao";
 
 interface Estado {
-    projetos: IProjeto[]
+    projetos: IProjeto[],
+    notificacoes: INotificacao[]
 }
 
 export const key: InjectionKey<Store<Estado>> = Symbol();
 
 export const store = createStore<Estado>({
     state: {
-        projetos: []
+        projetos: [],
+        notificacoes: []
     },
     mutations: {
         [ActionEnum.ADICIONA_PROJETO](state, nomeDoProjeto: string) {
@@ -28,6 +31,15 @@ export const store = createStore<Estado>({
         [ActionEnum.EXCLUIR_PROJETO](state, idProjeto: string) {
             state.projetos = state.projetos.filter(proj => proj.id != idProjeto)
         },
+        [ActionEnum.NOTIFICAR](state, novaNotificacao: INotificacao) {
+
+            novaNotificacao.id = new Date().getTime()
+            state.notificacoes.push(novaNotificacao)
+
+            setTimeout(() => {
+                state.notificacoes = state.notificacoes.filter(notificacao => notificacao.id != novaNotificacao.id)
+            }, 3000)
+        }
     }
 });
 

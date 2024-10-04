@@ -16,6 +16,7 @@
 import { useStore } from '@/store';
 import { defineComponent } from 'vue';
 import { ActionEnum } from '@/store/action.enum';
+import { TipoNotificacaoEnum } from '@/store/tipo-notificacao.enum';
 
 
 export default defineComponent({
@@ -24,7 +25,7 @@ export default defineComponent({
     id: { type: String }
   },
   mounted() {
-    if(this.id) {
+    if (this.id) {
       const projeto = this.store.state.projetos.find(proj => proj.id == this.id);
       this.nomeDoProjeto = projeto?.nome || '';
     }
@@ -36,7 +37,7 @@ export default defineComponent({
   },
   methods: {
     salvar() {
-      if(this.id) {
+      if (this.id) {
         this.store.commit(ActionEnum.ALTERA_PROJETO, {
           id: this.id,
           nome: this.nomeDoProjeto
@@ -44,6 +45,11 @@ export default defineComponent({
         this.$router.push('/projetos')
       } else {
         this.store.commit(ActionEnum.ADICIONA_PROJETO, this.nomeDoProjeto);
+        this.store.commit(ActionEnum.NOTIFICAR, {
+          titulo: 'Novo projeto foi salvo',
+          texto: 'Prontinho ;) seu projeto já está disponível.',
+          tipo: TipoNotificacaoEnum.SUCESSO
+        })
         this.nomeDoProjeto = "";
         this.$router.push('/projetos')
       }
