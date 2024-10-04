@@ -17,6 +17,7 @@ import { useStore } from '@/store';
 import { defineComponent } from 'vue';
 import { ActionEnum } from '@/store/action.enum';
 import { TipoNotificacaoEnum } from '@/store/tipo-notificacao.enum';
+import useNotificador from '@/hooks/notificador'
 
 
 export default defineComponent({
@@ -45,11 +46,7 @@ export default defineComponent({
         this.$router.push('/projetos')
       } else {
         this.store.commit(ActionEnum.ADICIONA_PROJETO, this.nomeDoProjeto);
-        this.store.commit(ActionEnum.NOTIFICAR, {
-          titulo: 'Novo projeto foi salvo',
-          texto: 'Prontinho ;) seu projeto já está disponível.',
-          tipo: TipoNotificacaoEnum.SUCESSO
-        })
+        this.notificar(TipoNotificacaoEnum.SUCESSO, 'Novo projeto foi salvo', 'Prontinho ;) seu projeto já está disponível.')
         this.nomeDoProjeto = "";
         this.$router.push('/projetos')
       }
@@ -57,8 +54,10 @@ export default defineComponent({
   },
   setup() {
     const store = useStore();
+    const { notificar } = useNotificador()
     return {
-      store
+      store,
+      notificar
     }
   }
 })
