@@ -1,3 +1,5 @@
+import FormularioView from "@/views/Projetos/FormularioView.vue";
+import ProjetosListaView from "@/views/Projetos/ProjetosListaView.vue";
 import ProjetosView from "@/views/ProjetosView.vue";
 import TarefasView from "@/views/TarefasView.vue";
 import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
@@ -10,8 +12,25 @@ const routes: RouteRecordRaw[] = [
     },
     {
         path: '/projetos',
-        name: 'ProjetosView',
-        component: ProjetosView
+        component: ProjetosView,
+        children: [
+            {
+                path: '',
+                name: 'ProjetosListaView',
+                component: ProjetosListaView
+            },
+            {
+                path: 'novo',
+                name: 'Novo projeto',
+                component: FormularioView
+            },
+            {
+                path: ':id',
+                name: 'Editar projeto',
+                component: FormularioView,
+                props: true
+            },
+        ]
     }
 ];
 
