@@ -46,11 +46,12 @@ export default defineComponent({
     name: 'ProjetosListaView',
     methods: {
         excluir(id: string) {
-            this.store.commit(ActionEnum.EXCLUIR_PROJETO, id)
+            this.store.dispatch(ActionEnum.EXCLUIR_PROJETO, id)
         }
     },
     setup() {
         const store = useStore();
+        store.dispatch(ActionEnum.OBTER_PROJETOS)
         return {
             store,
             projetos: computed(() => store.state.projetos)
